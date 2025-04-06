@@ -1,4 +1,6 @@
 # Model Prediction Pipeline
+To get the prediction of engagement for certain account, run the python notebook `engagement_model_prediction_pipeline.ipnyb`. This notebook reads the example data from the folder `ig_data-2024` and load the pretrained models from `models` folder.
+
 ## Prediction Pipeline Method:
 Load Data
 
