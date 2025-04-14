@@ -34,7 +34,34 @@ In order to make the dataset less sparse and easier to model, we decided to aggr
 | profile 2  | 2024-01-14 | 300       | 2    | 150                  | 50    | 12         | 500                                 |
 
 ### 2.5 Modeling
+
+`Removing unusual rows`
+
+`Chronological Train Test Split`
+
+`Linear Regression Model`
+
 ## 3. Results
+
+Since an industry benchmark was not found, the model results are compared to a baseline model we made. The baseline model is a linear regression model which predicts for engagement per post in the next 7 days without any feature engineering we did. The evaluation matric results are demonstrated in the table below: 
+
+| Model         | RMSE       | R²     |
+|---------------|------------|--------|
+| baseline 7d   | 148560.38  | 0.41   |
+| future 7d     | -55%       | 115%   |
+| future 14d    | -51%       | 110%   |
+| future 21d    | -50%       | 109%   |
+| future 28d    | -45%       | 104%   |
+
+`Improvement in RMSE:` From the figure below, we can see that RMSE dropped for approximately 50% for all 4 trained models. This is a significant improvement in the model performance as a lower RMSE indicates better performance. 
+
+<img width="595" alt="Screen Shot 2025-04-14 at 5 39 25 PM" src="https://github.com/user-attachments/assets/d27c0c3a-21c5-4205-8226-5fa044f2b214" />
+
+`Improvement in R²: ` From the figure below, we can see that R² improved for more than 100% for all 4 trained models. They all reached a value above 0.83 which is considered as a very good fit of the data, especially when compared to the original baseline R² which is 0.41. 
+
+<img width="595" alt="Screen Shot 2025-04-14 at 5 40 28 PM" src="https://github.com/user-attachments/assets/e2109bd3-0384-436c-8163-b8ce1c87a488" />
+
+
 ## 4. Technical Documents
 ### 4.1 Files Included and How to Replicate
 The repo contains the `model_training_pipeline` and `model_prediction_pipeline`. 
