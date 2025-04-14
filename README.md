@@ -9,7 +9,30 @@ There's no benchmark studies with similar goal and the data we are using.
 ### 2.2 Data
 The data we are using to train and test the model is the daily count data of Instagram profiles, spanning from 2023 Jan 1st to 2024 Dec 31st. It contains more than 33 million rows in total. 
 ### 2.3 EDA
+
+Upon observing the dataset, we have encountered the greatest challenge--discontinuity with lots of missing values—due to the nature of the data collection process. In order to understand these missing values more systematically, we explored the dataset more with stratified layers of profile record counts. The distribution result is demonstrated by the histogram below: 
+
+<img width="718" alt="Screen Shot 2025-04-14 at 5 07 01 PM" src="https://github.com/user-attachments/assets/de00e2a2-d48c-4341-b612-6a01b0bac2ac" />
+
+It can be noticed that most of the profiles have total records of less than 50 days among 366 days (one year data). Only a few profiles have total number of records positioned in the two upper layers, 300-365 days and 366 days. This tilted distribution of the dataset has create obstacles in predicting outcomes with time series models, which prefers continued data. Hence, data preprocessing and resampling has been taken to decrease the sparsity in the data. 
+
 ### 2.4 Data Preprocessing
+`Resampling: `
+
+An example source data is displayed in this table which has records on a daily basis:
+
+| profile id | date       | followers | post | engagement | reach | impression |
+|------------|------------|-----------|------|------------|-------|------------|
+| profile 1  | 2024-01-07 | 300       | 0    | 0.0        | 0     | 0          |
+| profile 2  | 2024-01-08 | 350       | 1    | 3          | 1     | 2          |
+
+In order to make the dataset less sparse and easier to model, we decided to aggregate the daily data into weekly data where each matrix represent the sum of that value for the entire week. This has significantly decrease the number of null values in the dataset as 7 null values in a week will be aggregated into 1 null value. The resulted aggregated processed table is shown: 
+
+| profile id | date       | followers | post | engagement per post | reach | impression | monthly average engagement per post |
+|------------|------------|-----------|------|----------------------|-------|------------|-------------------------------------|
+| profile 1  | 2024-01-07 | 300       | 3    | 300                  | 20    | 10         | 500                                 |
+| profile 2  | 2024-01-14 | 300       | 2    | 150                  | 50    | 12         | 500                                 |
+
 ### 2.5 Modeling
 ## 3. Results
 ## 4. Technical Documents
