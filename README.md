@@ -33,13 +33,24 @@ In order to make the dataset less sparse and easier to model, we decided to aggr
 | profile 1  | 2024-01-07 | 300       | 3    | 300                  | 20    | 10         | 500                                 |
 | profile 2  | 2024-01-14 | 300       | 2    | 150                  | 50    | 12         | 500                                 |
 
+`Feature Engineering: `
+
+New features such as monthly average engagement per post are added to capture more general information on past values. In addition, lag features, which are features that store past values of existing variables in order to predict future values, are added to emphasize more recent past values (up to past 4 weeks). These lag features are created for followers, reach and impression. Lag 1 features of a variable is just the value of the variable from last week. From the example below, we can see that lag 1 feature of followers in week 2 is the value of followers in week 1. This applies to reach and impression as well. These lag feature value will be null if past week's value is missing. In this case, if all variables of a profile have missing values for the same week (in one row of data), the entire row will be dropped to avoid unuseful information. 
+
+| profile id | date       | followers | followers_lag1 | reach | reach_lag1 | impression | impression_lag1 |
+|------------|------------|-----------|------|----------------------|-------|------------|-------------------------------------|
+| profile 1  | 2024-01-07 | 300       | -    | 300                  | -    | 10         | -                                 |
+| profile 1  | 2024-01-14 | 500       | 300    | 150                  | 300    | 12         | 10                                 |
+
+Target variables are also adapted from `engagement per post` and named as `engagement future 7 days`, `engagement future 14 days`, `engagement future 21 days`, `engagement future 28 days`. These 4 target variables record the future value of `engageent per post` in the according future windows and will be used separately for each training models. 
+
 ### 2.5 Modeling
 
-`Removing unusual rows`
+`Removing unusual rows`: If all variables values are missing in the same row, the row will be dropped as it is not providing useful information for training. 
 
-`Chronological Train Test Split`
+`Chronological Train Test Split`: Dataset is splitted into training and testing set in a chronological order. That is, dates before the cutoff date (2024-07-30) will be in the training set and dates after that will be in the testing set. 
 
-`Linear Regression Model`
+`Linear Regression Model`: Four different linear regression models are trained for each targeted future windows of predicting engagement per post. 
 
 ## 3. Results
 
